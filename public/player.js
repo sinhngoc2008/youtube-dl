@@ -56,7 +56,7 @@ var mediaPlayer = (function () {
         videoElement.play();
     };
 
-    var playPrev = function () {
+    var playPrev = async function () {
         if (trackIDs.length === 0) return;
         if (trackIndex <= 0) return;
         trackIndex--;
@@ -67,7 +67,9 @@ var mediaPlayer = (function () {
 
         // get static url from youtube
         // let staticUrl = youtube[trackIndex];
-        setPlayerUrl(staticUrl);
+        let staticUrl = await getMP3(url);
+        console.log('staticUrl', staticUrl);
+        setPlayerUrl(staticUrl.data.url);
         videoElement.play();
     };
 
@@ -144,7 +146,14 @@ function pressStop() {
     console.log("pressStop");
     mediaPlayer.stop(video);
 }
-
+function pressPrevious() {
+    console.log("playPrev");
+    mediaPlayer.playPrev();
+}
+function pressNext() {
+    console.log("playNext");
+    mediaPlayer.playNext();
+}
 function onEnded() {
     console.log("onEnded");
     mediaPlayer.playNext();
