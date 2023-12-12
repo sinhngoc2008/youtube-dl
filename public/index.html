@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://www.codehim.com/demo/javascript-audio-player-with-playlist/ -->
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="text/javascript">
+        const playlistURL = "https://www.youtube.com/watch?v=ZBMnhsr8G7k&list=PLK_D0CNUqhtSROd2NLJcTUmROV-r6pzZH";
+        const trackURL = "https://www.youtube.com/watch?v=ycGfvA1vkR8";
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-80520768-2');
+    </script>
+
+</head>
+
+
+<body>
+    <h1>Youtube Player without Ads</h1>
+    <p>HTML5 Audio Player with playlist and sustom controls.</p>
+    <input type="text" id="url"
+        value="https://www.youtube.com/watch?v=ZBMnhsr8G7k&list=PLK_D0CNUqhtSROd2NLJcTUmROV-r6pzZH"
+        style="width: 500px;">
+    <button onclick="addPlaylist(document.getElementById('url').value)">Add Playlist</button>
+
+    <button onclick="pressPlay()">Play</button>
+    <button onclick="pressStop()">Stop</button>
+    <div id="playlist">
+
+    </div>
+    <text>
+        <a href="https://www.youtube.com/watch?v=ycGfvA1vkR8">Current Track</a>
+    </text>
+
+    <div id="player">
+        <video id="video" controls autoplay playsinline width="500px" height="500px" preload="auto" volume="0.1"
+            src="https://rr3---sn-n3cgv5qc5oq-jwwe.googlevideo.com/videoplayback?expire=1702327194&ei=Oh93ZbDlK52BvcAP-JuL-AU&ip=116.125.135.39&id=o-AMbZrv0VRJhOfw5ofoUDEaCiNawqyuxmlpfhyK8Sq9vE&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&mh=GG&mm=31%2C29&mn=sn-n3cgv5qc5oq-jwwe%2Csn-n3cgv5qc5oq-bh267&ms=au%2Crdu&mv=m&mvi=3&pl=24&initcwndbps=1422500&spc=UWF9f_GHBlnBnheFVc7iNkvgtOogWs35ODWH43Q-fw&vprv=1&svpuc=1&mime=audio%2Fwebm&ns=gDaSsWIYfY6Uoms67wVl5LcQ&gir=yes&clen=6203601&dur=342.941&lmt=1700046001038894&mt=1702305203&fvip=7&keepalive=yes&fexp=24007246&c=WEB&txp=4532434&n=0UqMLfYFSXiElg&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&sig=AJfQdSswRgIhAIrVAWfCEtzn4Ozzxyllwaobf520aFQKPP6gx1r3ZBp4AiEAmEopmQg-AfjNz4dLOXX3FLLlPZocJDOLVepQLsb0pIM%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AM8Gb2swRQIhAKXo_TCtP6n1DgwmltM9cLcL9fCNOWzEWxX0Wdz5Iq16AiARSLkGXXnzTZOvCfGu3q5LuaNmeO_MiRoeqon_RiMrVQ%3D%3D"
+            onended="onEnded()"></video>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+
+
+
+
+
+
+    <script src="./player.js" type="text/javascript"></script>
+</body>
+
+</html>
