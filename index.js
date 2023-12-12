@@ -8,10 +8,10 @@ const cors = require('cors');
 
 const ytcore = require('ytdl-core');
 const ytpl = require('ytpl');
-
+const serverURL = "http://youtube.lutstore.shop";
 // add cors
 const corsOrigin = {
-    origin: ['http://localhost:9090', 'http://192.168.45.99:9090'], //or whatever port your frontend is using
+    origin: [serverURL, 'http://localhost:9090', 'http://localhost:9091', 'http://127.0.0.1:9091'], //or whatever port your frontend is using
     credentials: true,
     optionSuccessStatus: 200
 }
