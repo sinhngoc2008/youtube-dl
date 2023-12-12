@@ -1,5 +1,6 @@
 let videoElement = document.getElementById("video");
-let server = "http://localhost:9091/api";
+// let server = "http://localhost:9091/api";
+let server = "http://youtube.lutstore.shop/api";
 
 
 var mediaPlayer = (function () {
