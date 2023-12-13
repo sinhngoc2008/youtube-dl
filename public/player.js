@@ -1,8 +1,22 @@
-let videoElement = document.getElementById("video");
+// let videoElement = document.getElementById("video");
 // let server = "http://localhost:9091/api";
 let server = "http://youtube.lutstore.shop/api";
 
+const container = document.getElementById('playerreact')
+const url = '';
 
+renderReactPlayer(container, { url, playing: true, onEnded: onEnded })
+
+function pausePlayer() {
+    renderReactPlayer(container, { url, playing: false })
+}
+
+function playReactPlayer(url) {
+    renderReactPlayer(container, { url, playing: true })
+}
+function pauseReactPlayer(url) {
+    renderReactPlayer(container, { url, playing: true })
+}
 var mediaPlayer = (function () {
     var isVideo = false;
     let playlistIDs = [];
@@ -23,12 +37,14 @@ var mediaPlayer = (function () {
     };
 
     var play = function (type) {
-        videoElement.volume = 0.2;
+        // videoElement.volume = 0.2;
         playNext();
     };
 
     var stop = function (type) {
-        videoElement.pause();
+        // videoElement.pause();
+
+        pauseReactPlayer();
     };
 
     var isPlaying = function (type) {
@@ -47,13 +63,14 @@ var mediaPlayer = (function () {
         let id = trackIDs[trackIndex];
         let url = 'https://www.youtube.com/watch?v=' + id;
         console.log('playNext', url);
+        pauseReactPlayer(url);
 
         // get static url from youtube
         // let staticUrl = youtube[trackIndex];
-        let staticUrl = await getMP3(url);
-        console.log('staticUrl', staticUrl);
-        setPlayerUrl(staticUrl.data.url);
-        videoElement.play();
+        // let staticUrl = await getMP3(url);
+        // console.log('staticUrl', staticUrl);
+        // setPlayerUrl(staticUrl.data.url);
+        // videoElement.play();
     };
 
     var playPrev = async function () {
@@ -64,17 +81,18 @@ var mediaPlayer = (function () {
         let id = trackIDs[trackIndex];
         let url = 'https://www.youtube.com/watch?v=' + id;
         console.log('playNext', url);
+        pauseReactPlayer(url);
 
-        // get static url from youtube
-        // let staticUrl = youtube[trackIndex];
-        let staticUrl = await getMP3(url);
-        console.log('staticUrl', staticUrl);
-        setPlayerUrl(staticUrl.data.url);
-        videoElement.play();
+        // // get static url from youtube
+        // // let staticUrl = youtube[trackIndex];
+        // let staticUrl = await getMP3(url);
+        // console.log('staticUrl', staticUrl);
+        // setPlayerUrl(staticUrl.data.url);
+        // videoElement.play();
     };
 
     var setPlayerUrl = function (url) {
-        videoElement.src = url;
+        // videoElement.src = url;
         url = url;
     };
 
@@ -137,7 +155,7 @@ function addPlaylist(_url) {
     }
 }
 
-function pressPlay() {
+function pressPlay(video) {
     console.log("pressPlay");
     mediaPlayer.play(video);
 }
