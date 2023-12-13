@@ -5,17 +5,17 @@ let server = "http://youtube.lutstore.shop/api";
 const container = document.getElementById('playerreact')
 const url = '';
 
-renderReactPlayer(container, { url, playing: true, onEnded: onEnded })
+// renderReactPlayer(container, { url, playing: true, onEnded: onEnded })
 
 function pausePlayer() {
-    renderReactPlayer(container, { url, playing: false })
+    renderReactPlayer(container, { url, playing: false, onEnded: onEnded })
 }
 
 function playReactPlayer(url) {
-    renderReactPlayer(container, { url, playing: true })
+    renderReactPlayer(container, { url, playing: true, onEnded: onEnded })
 }
 function pauseReactPlayer(url) {
-    renderReactPlayer(container, { url, playing: true })
+    renderReactPlayer(container, { url, playing: true, onEnded: onEnded })
 }
 var mediaPlayer = (function () {
     var isVideo = false;
