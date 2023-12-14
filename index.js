@@ -9,6 +9,7 @@ const cors = require('cors');
 const ytcore = require('ytdl-core');
 const ytpl = require('ytpl');
 const serverURL = "http://youtube.lutstore.shop";
+// const serverURL = "http://localhost:9091";
 // add cors
 const corsOrigin = {
     origin: [serverURL, 'http://localhost:9090', 'http://localhost:9091', 'http://127.0.0.1:9091'], //or whatever port your frontend is using
@@ -27,11 +28,11 @@ async function getMp3(url) {
     // let url = "https://www.youtube.com/watch?v=ZBMnhsr8G7k";
     console.log("URL: " + url);
     let info = await ytcore.getInfo(url);
-    // return info.formats;
-    console.log(info.formats);
-
     let audioFormats = await ytcore.filterFormats(info.formats, 'audioonly');
-    return audioFormats[0];
+    let format = await ytcore.chooseFormat(audioFormats, { quality: 'highestaudio' })
+    var result = { id: info.videoDetails.videoId, title: info.videoDetails.title, author: info.videoDetails.author.name, url: audioFormats[0].url, duration: format.approxDurationMs };
+
+    return result;
 }
 async function getMp4(url) {
     // let url = "https://www.youtube.com/watch?v=ZBMnhsr8G7k";
@@ -71,7 +72,7 @@ app.get('/api/', async (req, res) => {
 
     if (trackID) {
         var mp3 = await getMp3(inputUrl);
-        return res.send({ id: trackID, url: mp3.url });
+        return res.send(JSON.stringify(mp3));
 
     }
     return res;

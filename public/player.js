@@ -1,7 +1,10 @@
 // let videoElement = document.getElementById("video");
+let videoElement = document.getElementById("audio");
 // let server = "http://localhost:9091/api";
-let server = "http://youtube.lutstore.shop/api";
+// let server = "http://youtube.lutstore.shop/api";
 
+const player = document.getElementById('player')
+const playlist = document.getElementById('playlist-ul')
 const container = document.getElementById('playerreact')
 const url = '';
 
@@ -15,8 +18,10 @@ function playReactPlayer(url) {
     renderReactPlayer(container, { url, playing: true, onEnded: onEnded })
 }
 function pauseReactPlayer(url) {
-    renderReactPlayer(container, { url, playing: true, onEnded: onEnded })
+    renderReactPlayer(container, { url, playing: false, onEnded: onEnded })
 }
+
+
 var mediaPlayer = (function () {
     var isVideo = false;
     let playlistIDs = [];
@@ -24,7 +29,8 @@ var mediaPlayer = (function () {
     let playlistIndex = 0;
     let trackIndex = -1;
 
-    var isAudio = false;
+    videoElement.volume = 0.2;
+
     var url = '';
 
     var initSession = function (type) {
@@ -37,14 +43,13 @@ var mediaPlayer = (function () {
     };
 
     var play = function (type) {
-        // videoElement.volume = 0.2;
-        playNext();
+        videoElement.play();
     };
 
     var stop = function (type) {
-        // videoElement.pause();
+        videoElement.pause();
 
-        pauseReactPlayer();
+        // pauseReactPlayer();
     };
 
     var isPlaying = function (type) {
@@ -55,137 +60,19 @@ var mediaPlayer = (function () {
         }
     };
 
-    var playNext = async function () {
-        if (trackIDs.length === 0) return;
-        if (trackIndex >= trackIDs.length) return;
-        trackIndex++;
-
-        let id = trackIDs[trackIndex];
-        let url = 'https://www.youtube.com/watch?v=' + id;
-        console.log('playNext', url);
-        pauseReactPlayer(url);
-
-        // get static url from youtube
-        // let staticUrl = youtube[trackIndex];
-        // let staticUrl = await getMP3(url);
-        // console.log('staticUrl', staticUrl);
-        // setPlayerUrl(staticUrl.data.url);
-        // videoElement.play();
-    };
-
-    var playPrev = async function () {
-        if (trackIDs.length === 0) return;
-        if (trackIndex <= 0) return;
-        trackIndex--;
-
-        let id = trackIDs[trackIndex];
-        let url = 'https://www.youtube.com/watch?v=' + id;
-        console.log('playNext', url);
-        pauseReactPlayer(url);
-
-        // // get static url from youtube
-        // // let staticUrl = youtube[trackIndex];
-        // let staticUrl = await getMP3(url);
-        // console.log('staticUrl', staticUrl);
-        // setPlayerUrl(staticUrl.data.url);
-        // videoElement.play();
-    };
-
-    var setPlayerUrl = function (url) {
-        // videoElement.src = url;
-        url = url;
-    };
-
-    var addTrackID = function (id) {
-        if (trackIDs.includes(id)) return;
-        trackIDs.push(id);
-        console.log('trackIDs', trackIDs);
-    };
-
-    var addPlaylistID = async function (id) {
-        if (playlistIDs.includes(id)) return;
-        playlistIDs.push(id);
-
-        // get trackIDs from playlist
-        var playlistUrl = 'https://www.youtube.com/playlist?list=' + id;
-        var tracks = await getTrack(playlistUrl);
-        console.log('playlistIDs', playlistIDs);
-        console.log('tracks', tracks);
-        tracks.data.map(track => {
-            addTrackID(track.id);
-        })
+    var setPlayerUrl = function (_url) {
+        url = _url;
+        videoElement.src = _url;
     };
 
     return {
         url: url,
         play: play,
         stop: stop,
-        playNext: playNext,
-        playPrev: playPrev,
+
         isPlaying: isPlaying,
         initSession: initSession,
-        setPlayerUrl: setPlayerUrl,
-        addTrackID: addTrackID,
-        addPlaylistID: addPlaylistID
+        setPlayerUrl: setPlayerUrl
 
     };
 }());
-
-// if (typeof mediaPlayer == "undefined") mediaPlayer = {};
-// console.log('mediaPlayer', mediaPlayer);
-
-mediaPlayer.initSession('video');
-
-function addPlaylist(_url) {
-
-    if (_url.includes("list=")) {
-        console.log("addPlaylist ====>" + _url);
-        const url = new URL(_url);
-        var params = new URLSearchParams(url.search);
-        console.log(params.get('v'));
-        console.log(params.get('list'));
-
-        mediaPlayer.addPlaylistID(params.get('list'));
-
-    } else {
-        console.log("addTrack ====>" + _url);
-        const url = new URL(_url);
-        var params = new URLSearchParams(url.search);
-        mediaPlayer.addTrackID(params.get('v'));
-    }
-}
-
-function pressPlay(video) {
-    console.log("pressPlay");
-    mediaPlayer.play(video);
-}
-
-function pressStop() {
-    console.log("pressStop");
-    mediaPlayer.stop(video);
-}
-function pressPrevious() {
-    console.log("playPrev");
-    mediaPlayer.playPrev();
-}
-function pressNext() {
-    console.log("playNext");
-    mediaPlayer.playNext();
-}
-function onEnded() {
-    console.log("onEnded");
-    mediaPlayer.playNext();
-}
-
-async function getTrack(url) {
-    return await axios.get(server + "/?url=" + url);
-}
-async function getMP3(url) {
-    return await axios.get(server + "/?url=" + url);
-}
-function getMP4(url) {
-    axios.post("url", { name: "data" }).then(function (response) {
-        console.log(response)
-        // do whatever you want if console is [object object] then stringify the response
-    })
-}
