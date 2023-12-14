@@ -1,6 +1,6 @@
-let homeServer = "http://localhost:9091/api";
+// let homeServer = "http://localhost:9091/api";
 let cobaltServer = "https://co.wuk.sh/api/json";
-// let server = "http://youtube.lutstore.shop/api";
+let homeServer = "http://youtube.lutstore.shop/api";
 var utils = (function () {
     async function getTrack(url) {
         var result = await axios.get(homeServer + "/?url=" + url);
