@@ -140,6 +140,7 @@ app.get('/api/', async (req, res) => {
 
     if (trackID) {
         var mp3 = await getMp3(inputUrl);
+        console.log(mp3);
         return res.send(JSON.stringify(mp3));
 
     }

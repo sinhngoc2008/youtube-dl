@@ -5,6 +5,7 @@
 mediaPlayer.initSession('video');
 
 var playerManager = (function () {
+    var isPlaying = false;
     let playlistIDs = [];
     let trackIDs = [];
     let playlistIndex = -1;
@@ -46,26 +47,37 @@ var playerManager = (function () {
     };
 
     var PlayTrack = async function () {
-        if (trackIDs.length === 0) return;
-        if (trackIndex >= trackIDs.length) return;
-        if (trackIndex < 0) trackIndex = 0;
+        if (!isPlaying) {
+            if (trackIndex < 0) {
+                if (trackIDs.length === 0) return;
+                if (trackIndex >= trackIDs.length) return;
+                if (trackIndex < 0) trackIndex = 0;
 
-        let id = trackIDs[trackIndex];
-        let url = 'https://www.youtube.com/watch?v=' + id;
-        console.log('playNext', url);
+                let id = trackIDs[trackIndex];
+                let url = 'https://www.youtube.com/watch?v=' + id;
+                console.log('playNext', url);
 
-        let staticUrl = await utils.getMP3(url, id);
-        console.log('staticUrl');
+                let staticUrl = await utils.getMP3(url, id);
+                console.log('staticUrl');
 
-        console.log(staticUrl);
-        mediaPlayer.setPlayerUrl(staticUrl.url);
-        mediaPlayer.play();
+                console.log(staticUrl);
+                mediaPlayer.setPlayerUrl(staticUrl.url);
+            }
+            mediaPlayer.play();
+        }
+        else {
+            mediaPlayer.stop();
+        }
+        isPlaying = !isPlaying;
+
+
     }
     var StopTrack = function () {
         mediaPlayer.stop();
     }
 
     var NextTrack = async function () {
+        isPlaying = true;
         if (trackIDs.length === 0) return;
         if (trackIndex >= trackIDs.length) return;
         trackIndex++;
@@ -84,6 +96,7 @@ var playerManager = (function () {
     };
 
     var PrevTrack = async function () {
+        isPlaying = true;
         if (trackIDs.length === 0) return;
         if (trackIndex <= 0) return;
         trackIndex--;

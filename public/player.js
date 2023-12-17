@@ -1,5 +1,6 @@
 // let videoElement = document.getElementById("video");
 let videoElement = document.getElementById("audio");
+let videoSource = document.getElementById("audioSrc");
 // let server = "http://localhost:9091/api";
 // let server = "http://youtube.lutstore.shop/api";
 
@@ -43,6 +44,7 @@ var mediaPlayer = (function () {
     };
 
     var play = function (type) {
+
         videoElement.play();
     };
 
@@ -62,7 +64,9 @@ var mediaPlayer = (function () {
 
     var setPlayerUrl = function (_url) {
         url = _url;
-        videoElement.src = _url;
+        videoSource.src = _url;
+        videoElement.load();
+        videoElement.play();
     };
 
     return {

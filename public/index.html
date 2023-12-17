@@ -64,8 +64,9 @@
                 data-config="{&quot;shide_top&quot;:false,&quot;shide_btm&quot;:false,&quot;auto_load&quot;:false}">
 
                 <div class="simp-player">
-                        <audio style="width: 1; height: 1;" id="audio" autoplay playsinline onended="onEnded()">
-                                <source src="" type="audio/mpeg">
+                        <audio id="audio" preload="none" onended="onEnded()">
+                                <!-- <source id="audioSrc" src="https://www.soundjay.com/buttons/sounds/beep-08b.mp3" type="audio/mpeg"> -->
+                                <source id="audioSrc" src="https://www.soundjay.com/buttons/sounds/beep-08b.mp3" />
                         </audio>
                         <div class="simp-display simp-hide">
                                 <div class="simp-album w-full flex-wrap">
