@@ -98,9 +98,6 @@ async function getMp3(url) {
     var result = { id: info.videoDetails.videoId, title: info.videoDetails.title, author: info.videoDetails.author.name, url: audioFormats[0].url, duration: format.approxDurationMs };
 
     var xmateResult = await getMP3XMate(url, info.videoDetails.videoId);
-    console.log("xmateResult: ");
-    console.log(xmateResult);
-
     result.url = xmateResult.d_url;
 
     return result;
