@@ -1,20 +1,27 @@
 // let homeServer = "http://localhost:9091/api";
-let cobaltServer = "https://co.wuk.sh/api/json";
+
 let homeServer = "http://youtube.lutstore.shop/api";
+
+let cobaltServer = "https://co.wuk.sh/api/json";
 var utils = (function () {
+
     async function getTrack(url) {
         var result = await axios.get(homeServer + "/?url=" + url);
-
         return result.data;
     }
-
 
     async function getMP3(url, id) {
         var homeData = await getMP3Home(url);
 
-        var cobaltData = await getMP3Cobalt(url, id);
-        console.log("cobaltData: " + cobaltData);
-        homeData.url = cobaltData.url;
+        // var xMateData = getMP3XMate(url, id);
+        // console.log("xMateData: " + xMateData);
+        // homeData.url = xMateData.d_url;
+
+        // var cobaltData = await getMP3Cobalt(url, id);
+        // console.log("cobaltData: " + cobaltData);
+        // homeData.url = cobaltData.url;
+
+
         return homeData;
     }
     async function getMP3Home(url) {
