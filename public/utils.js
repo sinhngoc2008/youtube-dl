@@ -17,9 +17,9 @@ var utils = (function () {
         // console.log("xMateData: " + xMateData);
         // homeData.url = xMateData.d_url;
 
-        // var cobaltData = await getMP3Cobalt(url, id);
-        // console.log("cobaltData: " + cobaltData);
-        // homeData.url = cobaltData.url;
+        var cobaltData = await getMP3Cobalt(url, id);
+        console.log("cobaltData: " + cobaltData);
+        homeData.url = cobaltData.url;
 
 
         return homeData;
