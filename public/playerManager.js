@@ -1,7 +1,8 @@
 
 // if (typeof mediaPlayer == "undefined") mediaPlayer = {};
 // console.log('mediaPlayer', mediaPlayer);
-
+// const audioStaticPath = 'http://youtube.lutstore.shop/media/audio/';
+const audioStaticPath = 'http://localhost:9091/media/audio/';
 mediaPlayer.initSession('video');
 
 var playerManager = (function () {
@@ -61,7 +62,7 @@ var playerManager = (function () {
                 console.log('staticUrl');
 
                 console.log(staticUrl);
-                mediaPlayer.setPlayerUrl(staticUrl.url);
+                mediaPlayer.setPlayerUrl(audioStaticPath + staticUrl.id + '.mp3');
             }
             mediaPlayer.play();
         }
@@ -91,7 +92,7 @@ var playerManager = (function () {
         let staticUrl = await utils.getMP3(url, id);
         console.log('staticUrl', staticUrl);
         console.log(staticUrl);
-        mediaPlayer.setPlayerUrl(staticUrl.url);
+        mediaPlayer.setPlayerUrl(audioStaticPath + staticUrl.id + '.mp3');
         mediaPlayer.play();
     };
 
@@ -109,7 +110,7 @@ var playerManager = (function () {
         // let staticUrl = youtube[trackIndex];
         let staticUrl = await utils.getMP3(url);
         console.log('staticUrl', staticUrl);
-        mediaPlayer.setPlayerUrl(staticUrl.url);
+        mediaPlayer.setPlayerUrl(audioStaticPath + staticUrl.id + '.mp3');
         mediaPlayer.play();
     };
 
@@ -172,9 +173,8 @@ async function gotoTrack(evt, _trackIDs, _trackIndex) {
 
     let staticUrl = await utils.getMP3(url, id);
     console.log('staticUrl');
-
     console.log(staticUrl);
-    mediaPlayer.setPlayerUrl(staticUrl.url);
+    mediaPlayer.setPlayerUrl(audioStaticPath + staticUrl.id + '.mp3');
     mediaPlayer.play();
 }
 

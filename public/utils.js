@@ -1,6 +1,6 @@
-// let homeServer = "http://localhost:9091/api";
+let homeServer = "http://localhost:9091/api";
 
-let homeServer = "http://youtube.lutstore.shop/api";
+// let homeServer = "http://youtube.lutstore.shop/api";
 
 let cobaltServer = "https://co.wuk.sh/api/json";
 var utils = (function () {
@@ -17,9 +17,9 @@ var utils = (function () {
         // console.log("xMateData: " + xMateData);
         // homeData.url = xMateData.d_url;
 
-        var cobaltData = await getMP3Cobalt(url, id);
-        console.log("cobaltData: " + cobaltData);
-        homeData.url = cobaltData.url;
+        // var cobaltData = await getMP3Cobalt(url, id);
+        // console.log("cobaltData: " + cobaltData);
+        // homeData.url = cobaltData.url;
 
 
         return homeData;
@@ -32,7 +32,7 @@ var utils = (function () {
 
     async function getMP3Cobalt(url, id) {
         var requestUrl = 'https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D' + id;
-        var axios_param = JSON.stringify({ "url": requestUrl, "aFormat": "mp3", "filenamePattern": "classic", "dubLang": false, "isAudioOnly": true, "isNoTTWatermark": true });
+        var axios_param = JSON.stringify({ "url": requestUrl, "aFormat": "mp3", "filenamePattern": "classic", "dubLang": false, "isAudioOnly": true, "isNoTTWatermark": true, "isTTFullAudio": true });
         var axios_headers = {
             'Accept': 'application/json',
             'Accept-Encoding': 'gzip, deflate, br',

@@ -1,3 +1,4 @@
+// "https://www.soundjay.com/buttons/sounds/beep-08b.mp3"
 // let videoElement = document.getElementById("video");
 let videoElement = document.getElementById("audio");
 // let server = "http://localhost:9091/api";
@@ -64,7 +65,7 @@ var mediaPlayer = (function () {
     var setPlayerUrl = function (_url) {
         url = _url;
         videoElement.src = _url;
-        videoElement.load();
+        // videoElement.load();
         videoElement.play();
     };
 
