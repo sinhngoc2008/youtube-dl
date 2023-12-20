@@ -95,6 +95,7 @@ app.get('/api/', async (req, res) => {
         }
         else {
             console.log('file exist on disk!!');
+            return res.send(JSON.stringify(mp3));
         }
 
     }
