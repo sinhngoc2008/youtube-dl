@@ -1,8 +1,8 @@
 
 // if (typeof mediaPlayer == "undefined") mediaPlayer = {};
 // console.log('mediaPlayer', mediaPlayer);
-// const audioStaticPath = 'http://youtube.lutstore.shop/media/audio/';
-const audioStaticPath = 'http://localhost:9091/media/audio/';
+const audioStaticPath = 'http://youtube.lutstore.shop/media/audio/';
+// const audioStaticPath = 'http://localhost:9091/media/audio/';
 mediaPlayer.initSession('video');
 
 var playerManager = (function () {
