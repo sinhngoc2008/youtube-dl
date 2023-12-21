@@ -94,7 +94,10 @@ async function getMP3Cobalt(url, id) {
 }
 function validateFile(mp3Name) {
     const filename = Path.join(__dirname, AudioPath, mp3Name);
-    if (Fs.existsSync(filename)) return true;
+    if (Fs.existsSync(filename)) {
+        console.log('file exist on disk!!');
+        return true;
+    }
     return false;
 }
 
@@ -110,8 +113,8 @@ async function DonwloadMp3(url, mp3Name, callback) {
     })
 
     // pipe the result stream into a file on disc
-    await response.data.pipe(await Fs.createWriteStream(filename)).on('finish', function (err) {
-        return callback(err);
+    await response.data.pipe(await Fs.createWriteStream(filename)).on('finish', async function (err) {
+        return await callback(err);
     });;
 }
 

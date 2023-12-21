@@ -90,13 +90,9 @@ app.get('/api/', async (req, res) => {
         if (validateFile(mp3.id + ".mp3") == false) {
             await DonwloadMp3(mp3.url, mp3.id + ".mp3", function (err) {
                 console.log('file downloaded successfully');
-                return res.send(JSON.stringify(mp3));
             });
         }
-        else {
-            console.log('file exist on disk!!');
-            return res.send(JSON.stringify(mp3));
-        }
+        return res.send(JSON.stringify(mp3));
 
     }
     return res;
