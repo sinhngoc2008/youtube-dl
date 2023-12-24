@@ -70,12 +70,11 @@ async function getMP3XMate(url, id) {
 
 async function getMP3Cobalt(url, id) {
     var requestUrl = 'https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D' + id;
-    var axios_param = JSON.stringify({ "aFormat": "best", "filenamePattern": "classic", "dubLang": false, "isAudioOnly": true, "isTTFullAudio": true, "isNoTTWatermark": true, "url": requestUrl });
+    var axios_param = JSON.stringify({ "aFormat": "mp3", "filenamePattern": "classic", "dubLang": false, "isAudioOnly": true, "isTTFullAudio": true, "isNoTTWatermark": true, "url": requestUrl });
     var axios_headers = {
         "Accept": 'application/json',
         "Accept-Encoding": 'gzip, deflate, br',
         "Accept-Language": 'en,en-US;q=0.9,en-GB;q=0.8',
-        "Content-Length": '189',
         "Content-Type": 'application/json',
         "Postman-Token": 'd7e6c9cd-c0ab-49fa-8b58-4876507a79a7',
         "Origin": 'https://cobalt.tools',
