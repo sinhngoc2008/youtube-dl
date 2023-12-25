@@ -1,7 +1,13 @@
-// const serverURL = "http://youtube.lutstore.shop";
-const serverURL = "http://192.168.45.99:9091";
-const audioLocation = 'http://192.168.45.99:9091/media/audio/';
-// const audioLocation = 'http://youtube.lutstore.shop/media/audio/';
+const serverURL = "http://youtube.lutstore.shop";
+// const serverURL = "http://192.168.45.99:9091";
+
+// const audioLocation = 'http://192.168.45.99:9091/media/audio/';
+const audioLocation = 'http://youtube.lutstore.shop/media/audio/';
+
+// let cobaltServer = "https://co.wuk.sh/api/json";
+// let cobaltServer = "http://cobalt.lutstore.shop/api/json";
+let cobaltServer = "http://localhost:9000/api/json";
+
 const PORT = 9091;
 const Fs = require('fs');
 const Path = require('path');
@@ -15,9 +21,6 @@ const ytpl = require('ytpl');
 
 const AudioPath = '/public/media/audio';
 const VideoPath = '/public/media/video';
-// let cobaltServer = "https://co.wuk.sh/api/json";
-let cobaltServer = "http://localhost:9000/api/json";
-// let cobaltServer = "http://cobalt.lutstore.shop/api/json";
 
 async function postXMate(api, header, data) {
     const param = Object.keys(data)
@@ -173,6 +176,9 @@ const DonwloadMp4 = (url, filename) => {
 async function VerifyMediaFolder() {
     let mediaFolder = Path.join(__dirname, AudioPath);
     CreateFolder(mediaFolder)
+
+    let videoFolder = Path.join(__dirname, VideoPath);
+    CreateFolder(videoFolder)
 }
 async function CreateFolder(localPath) {
     return Fs.mkdirSync(localPath, { recursive: true })
