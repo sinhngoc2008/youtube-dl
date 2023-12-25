@@ -1,8 +1,4 @@
 
-// if (typeof mediaPlayer == "undefined") mediaPlayer = {};
-// console.log('mediaPlayer', mediaPlayer);
-const audioStaticPath = 'http://youtube.lutstore.shop/media/audio/';
-// const audioStaticPath = 'http://localhost:9091/media/audio/';
 mediaPlayer.initSession('video');
 
 var playerManager = (function () {
@@ -41,6 +37,7 @@ var playerManager = (function () {
 
         })
     };
+
     var addTrackID = async function (track) {
         if (trackIDs.includes(track.id)) return;
         trackIDs.push(track.id);
@@ -49,69 +46,57 @@ var playerManager = (function () {
 
     var PlayTrack = async function () {
         if (!isPlaying) {
-            if (trackIndex < 0) {
-                if (trackIDs.length === 0) return;
-                if (trackIndex >= trackIDs.length) return;
-                if (trackIndex < 0) trackIndex = 0;
+            if (trackIDs.length === 0) return;
+            if (trackIndex >= trackIDs.length) return;
+            if (trackIndex < 0) trackIndex = 0;
 
-                let id = trackIDs[trackIndex];
-                let url = 'https://www.youtube.com/watch?v=' + id;
-                console.log('playNext', url);
+            let id = trackIDs[trackIndex];
+            let url = 'https://www.youtube.com/watch?v=' + id;
 
-                let staticUrl = await utils.getMP3(url, id);
-                console.log('staticUrl');
+            var trackData = await utils.getMP3(url, id);
 
-                console.log(staticUrl);
-                mediaPlayer.setPlayerUrl(audioStaticPath + staticUrl.id + '.mp3');
-            }
+            console.log('trackData');
+            console.log(trackData);
+
+            if (trackData === undefined) {
+                alert("Cannot get data from server");
+                return;
+            };
+            mediaPlayer.setPlayerUrl(trackData.url);
             mediaPlayer.play();
+            isPlaying = true;
         }
         else {
-            mediaPlayer.stop();
+            StopTrack();
         }
-        isPlaying = !isPlaying;
-
-
     }
+
     var StopTrack = function () {
         mediaPlayer.stop();
+        isPlaying = false;
     }
 
     var NextTrack = async function () {
-        isPlaying = true;
+        StopTrack();
+
+        // isPlaying = false;
         if (trackIDs.length === 0) return;
         if (trackIndex >= trackIDs.length) return;
         trackIndex++;
 
         console.log('trackIndex', trackIndex);
-
-        let id = trackIDs[trackIndex];
-        let url = 'https://www.youtube.com/watch?v=' + id;
-        console.log('playNext', url);
-
-        let staticUrl = await utils.getMP3(url, id);
-        console.log('staticUrl', staticUrl);
-        console.log(staticUrl);
-        mediaPlayer.setPlayerUrl(audioStaticPath + staticUrl.id + '.mp3');
-        mediaPlayer.play();
+        PlayTrack();
     };
 
     var PrevTrack = async function () {
-        isPlaying = true;
+        StopTrack();
+
+        // isPlaying = false;
         if (trackIDs.length === 0) return;
         if (trackIndex <= 0) return;
         trackIndex--;
 
-        let id = trackIDs[trackIndex];
-        let url = 'https://www.youtube.com/watch?v=' + id;
-        console.log('playNext', url);
-
-        // get static url from youtube
-        // let staticUrl = youtube[trackIndex];
-        let staticUrl = await utils.getMP3(url);
-        console.log('staticUrl', staticUrl);
-        mediaPlayer.setPlayerUrl(audioStaticPath + staticUrl.id + '.mp3');
-        mediaPlayer.play();
+        PlayTrack();
     };
 
     return {
@@ -125,13 +110,6 @@ var playerManager = (function () {
     }
 
 }());
-
-
-
-
-
-
-
 
 async function addPlaylistBtn(_url) {
     if (_url.includes("list=")) {
@@ -157,9 +135,9 @@ async function addPlaylistBtn(_url) {
 let itemindex = 0;
 async function gotoTrack(evt, _trackIDs, _trackIndex) {
 
+    console.log(evt);
+
     var id = evt.getAttribute("id");
-
-
     console.log(_trackIndex);
     console.log(_trackIDs);
 
@@ -167,14 +145,15 @@ async function gotoTrack(evt, _trackIDs, _trackIndex) {
     if (_trackIndex >= _trackIDs.length) return;
     if (!_trackIDs.includes(id)) return
     _trackIndex = _trackIDs.indexOf(id);
+    this.trackIndex = _trackIndex;
 
     var url = 'https://www.youtube.com/watch?v=' + id;
     console.log('playNext', url);
 
-    let staticUrl = await utils.getMP3(url, id);
+    let trackData = await utils.getMP3(url, id);
     console.log('staticUrl');
-    console.log(staticUrl);
-    mediaPlayer.setPlayerUrl(audioStaticPath + staticUrl.id + '.mp3');
+    console.log(trackData);
+    mediaPlayer.setPlayerUrl(trackData.url);
     mediaPlayer.play();
 }
 
@@ -197,6 +176,7 @@ function addPlaylistItemBtn() {
 }
 
 function pressPlayBtn() {
+    // mediaPlayer.play();
     console.log("pressPlay");
     playerManager.PlayTrack();
 }
@@ -205,6 +185,7 @@ function pressStopBtn() {
     console.log("pressStop");
     playerManager.StopTrack();
 }
+
 async function pressNextBtn() {
     console.log("playNext");
     await playerManager.NextTrack();

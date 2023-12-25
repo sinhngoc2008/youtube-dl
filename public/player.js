@@ -1,9 +1,7 @@
 // "https://www.soundjay.com/buttons/sounds/beep-08b.mp3"
 // let videoElement = document.getElementById("video");
-let videoElement = document.getElementById("audio");
-// let server = "http://localhost:9091/api";
-// let server = "http://youtube.lutstore.shop/api";
 
+let videoElement = document.getElementById("audio");
 const player = document.getElementById('player')
 const playlist = document.getElementById('playlist-ul')
 const container = document.getElementById('playerreact')
@@ -30,7 +28,7 @@ var mediaPlayer = (function () {
     let playlistIndex = 0;
     let trackIndex = -1;
 
-    videoElement.volume = 0.2;
+    // videoElement.volume = 0.2;
 
     var url = '';
 
@@ -44,14 +42,15 @@ var mediaPlayer = (function () {
     };
 
     var play = function (type) {
-
-        videoElement.play();
+        videoElement.play().catch(function (error) {
+            console.log("Error: " + error);
+        }).then = function () {
+            console.log("then");
+        }
     };
 
     var stop = function (type) {
         videoElement.pause();
-
-        // pauseReactPlayer();
     };
 
     var isPlaying = function (type) {
@@ -65,8 +64,12 @@ var mediaPlayer = (function () {
     var setPlayerUrl = function (_url) {
         url = _url;
         videoElement.src = _url;
-        // videoElement.load();
-        videoElement.play();
+        videoElement.load();
+        videoElement.play().catch(function (error) {
+            console.log("Error: " + error);
+        }).then = function () {
+            console.log("then");
+        }
     };
 
     return {

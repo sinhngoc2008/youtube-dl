@@ -1,10 +1,23 @@
+// const serverURL = "http://youtube.lutstore.shop";
+const serverURL = "http://192.168.45.99:9091";
+const audioLocation = 'http://192.168.45.99:9091/media/audio/';
+// const audioLocation = 'http://youtube.lutstore.shop/media/audio/';
+const PORT = 9091;
 const Fs = require('fs');
 const Path = require('path');
 const axios = require('axios');
 const path = require('path');
+// const fetch = require('node-fetch');
+
+const ytcore = require('ytdl-core');
+const ytpl = require('ytpl');
+
+
 const AudioPath = '/public/media/audio';
 const VideoPath = '/public/media/video';
-let cobaltServer = "https://co.wuk.sh/api/json";
+// let cobaltServer = "https://co.wuk.sh/api/json";
+let cobaltServer = "http://localhost:9000/api/json";
+// let cobaltServer = "http://cobalt.lutstore.shop/api/json";
 
 async function postXMate(api, header, data) {
     const param = Object.keys(data)
@@ -82,15 +95,15 @@ async function getMP3Cobalt(url, id) {
         "Host": 'co.wuk.sh',
     };
 
-    console.log(cobaltServer);
-    console.log(axios_param);
-    console.log(axios_headers);
+    // console.log(cobaltServer);
+    // console.log(axios_param);
+    // console.log(axios_headers);
     var result = await axios.post(cobaltServer, axios_param, { headers: axios_headers });
 
-    console.log(result.error);
-
+    // console.log(result.error);
     return result.data;
 }
+
 function validateFile(mp3Name) {
     const filename = Path.join(__dirname, AudioPath, mp3Name);
     if (Fs.existsSync(filename)) {
@@ -100,7 +113,7 @@ function validateFile(mp3Name) {
     return false;
 }
 
-async function DonwloadMp3(url, mp3Name, callback) {
+async function DonwloadMp3BK(url, mp3Name, callback) {
     const filename = Path.join(__dirname, AudioPath, mp3Name);
     console.log("Downloading file: " + filename);
 
@@ -117,6 +130,23 @@ async function DonwloadMp3(url, mp3Name, callback) {
     });;
 }
 
+async function DonwloadMp3(url, mp3Name, callback) {
+    const filename = Path.join(__dirname, AudioPath, mp3Name);
+
+    console.log("Downloading file: " + filename);
+
+    // axios image download with response type "stream"
+    const response = await axios({
+        method: 'GET',
+        url: url,
+        responseType: 'stream'
+    })
+
+    // pipe the result stream into a file on disc
+    await response.data.pipe(await Fs.createWriteStream(filename)).on('finish', function (err) {
+        callback(err);
+    });;
+}
 
 const DonwloadMp4 = (url, filename) => {
     axios({
@@ -140,4 +170,52 @@ const DonwloadMp4 = (url, filename) => {
     });
 }
 
-module.exports = { getMP3XMate, getMP3Cobalt, DonwloadMp3, DonwloadMp4, validateFile }
+async function VerifyMediaFolder() {
+    let mediaFolder = Path.join(__dirname, AudioPath);
+    CreateFolder(mediaFolder)
+}
+async function CreateFolder(localPath) {
+    return Fs.mkdirSync(localPath, { recursive: true })
+}
+
+
+async function getPlaylist(url) {
+    // let url = "https://www.youtube.com/watch?v=ZBMnhsr8G7k&list=PLK_D0CNUqhtSROd2NLJcTUmROV-r6pzZH";
+    let playlist = await ytpl(url);
+    return playlist.items;
+}
+async function getMp3(url) {
+    // let url = "https://www.youtube.com/watch?v=ZBMnhsr8G7k";
+    let result = {};
+    console.log("URL: " + url);
+    // try {
+    let info = await ytcore.getInfo(url);
+    let audioFormats = await ytcore.filterFormats(info.formats, 'audioonly');
+    let format = await ytcore.chooseFormat(audioFormats, { quality: 'highestaudio' })
+    result = { id: info.videoDetails.videoId, title: info.videoDetails.title, author: info.videoDetails.author.name, url: audioFormats[0].url, duration: format.approxDurationMs };
+
+    var cobaltData = await getMP3Cobalt(url, info.videoDetails.videoId);
+    result.url = cobaltData.url;
+
+    // var xmateResult = await getMP3XMate(url, info.videoDetails.videoId);
+    // result.url = xmateResult.d_url;
+    // }
+    //     catch (e) {
+    //     console.log(e);
+    // }
+    return result;
+}
+// async function getMp4(url) {
+//     // let url = "https://www.youtube.com/watch?v=ZBMnhsr8G7k";
+//     let info = await ytcore.getInfo(url);
+//     // return info.formats;
+//     let audioFormats = await ytcore.filterFormats(info.formats, 'videoonly');
+//     return audioFormats[0];
+// }
+
+module.exports = {
+    PORT, serverURL, audioLocation,
+    getMp3, getPlaylist,
+    DonwloadMp3, DonwloadMp4, validateFile,
+    VerifyMediaFolder
+}

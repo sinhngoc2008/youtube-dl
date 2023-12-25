@@ -7,10 +7,11 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./style.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
                 integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-                crossorigin="anonymous">
+                crossorigin="anonymous"> -->
 
+        <link href="./css/bootstrap.min.css" rel="stylesheet">
         <script type="text/javascript">
                 const playlistURL = "https://www.youtube.com/watch?v=ZBMnhsr8G7k&list=PLK_D0CNUqhtSROd2NLJcTUmROV-r6pzZH";
                 const trackURL = "https://www.youtube.com/watch?v=ycGfvA1vkR8";
@@ -66,7 +67,7 @@
                 data-config="{&quot;shide_top&quot;:false,&quot;shide_btm&quot;:false,&quot;auto_load&quot;:false}">
 
                 <div class="simp-player">
-                        <audio id="audio" preload="auto" onended="onEnded()" src="">
+                        <audio id="audio" preload="auto" onended="onEnded()" src="" type="audio/mpeg">
                         </audio>
                         <div class="simp-display simp-hide">
                                 <div class="simp-album w-full flex-wrap">
@@ -83,6 +84,7 @@
                                                 class="simp-prev fa fa-backward"></button>
                                         <button type="button" id="playBtn" onclick="pressPlayBtn()"
                                                 class="simp-plause fa fa-pause"></button>
+
                                         <button type="button" id="nextBtn" onclick="pressNextBtn()"
                                                 class=" simp-next fa fa-forward"></button>
                                 </div>
@@ -118,6 +120,7 @@
         <script src='https://unpkg.com/react-player/dist/ReactPlayer.standalone.js'></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
 
+        <script src="./info.js" type="text/javascript"></script>
         <script src="./utils.js" type="text/javascript"></script>
         <script src="./player.js" type="text/javascript"></script>
         <script src="./playerManager.js" type="text/javascript"></script>
