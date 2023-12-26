@@ -20,6 +20,8 @@
                 gtag('js', new Date());
 
                 gtag('config', 'UA-80520768-2');
+
+
         </script>
 </head>
 
@@ -67,7 +69,8 @@
                 data-config="{&quot;shide_top&quot;:false,&quot;shide_btm&quot;:false,&quot;auto_load&quot;:false}">
 
                 <div class="simp-player">
-                        <audio id="audio" preload="auto" onended="onEnded()" src="" type="audio/mpeg">
+                        <audio id="audio" preload="auto" autoplay playsinline onended="onEnded()"
+                                src='http://192.168.45.99:9091/media/audio/test.mp3' type="audio/mpeg">
                         </audio>
                         <div class="simp-display simp-hide">
                                 <div class="simp-album w-full flex-wrap">

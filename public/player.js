@@ -28,9 +28,10 @@ var mediaPlayer = (function () {
     let playlistIndex = 0;
     let trackIndex = -1;
 
+    let url = '';
     // videoElement.volume = 0.2;
 
-    var url = '';
+
 
     var initSession = function (type) {
         if (type === 'video') {
@@ -63,6 +64,7 @@ var mediaPlayer = (function () {
 
     var setPlayerUrl = function (_url) {
         url = _url;
+        console.log("_url: " + _url);
         videoElement.src = _url;
         videoElement.load();
         videoElement.play().catch(function (error) {
@@ -72,11 +74,15 @@ var mediaPlayer = (function () {
         }
     };
 
+    var isPaused = function () {
+        return videoElement.paused;
+    }
     return {
         url: url,
         play: play,
         stop: stop,
 
+        isPaused, isPaused,
         isPlaying: isPlaying,
         initSession: initSession,
         setPlayerUrl: setPlayerUrl

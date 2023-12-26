@@ -34,7 +34,6 @@ var playerManager = (function () {
         var tracks = await utils.getTrack(playlistUrl);
         tracks.map(track => {
             addTrackID(track);
-
         })
     };
 
@@ -46,6 +45,18 @@ var playerManager = (function () {
 
     var PlayTrack = async function () {
         if (!isPlaying) {
+            console.log(mediaPlayer.url);
+            console.log(mediaPlayer.isPaused());
+
+            if (mediaPlayer.url != '' && mediaPlayer.isPaused()) {
+
+                mediaPlayer.play();
+                isPlaying = true;
+                return;
+            }
+
+            mediaPlayer.play();
+            mediaPlayer.stop();
             if (trackIDs.length === 0) return;
             if (trackIndex >= trackIDs.length) return;
             if (trackIndex < 0) trackIndex = 0;
@@ -72,6 +83,7 @@ var playerManager = (function () {
     }
 
     var StopTrack = function () {
+        console.log('StopTrack');
         mediaPlayer.stop();
         isPlaying = false;
     }
@@ -85,7 +97,7 @@ var playerManager = (function () {
         trackIndex++;
 
         console.log('trackIndex', trackIndex);
-        PlayTrack();
+        await PlayTrack();
     };
 
     var PrevTrack = async function () {
@@ -96,7 +108,7 @@ var playerManager = (function () {
         if (trackIndex <= 0) return;
         trackIndex--;
 
-        PlayTrack();
+        await PlayTrack();
     };
 
     return {
@@ -157,8 +169,6 @@ async function gotoTrack(evt, _trackIDs, _trackIndex) {
     mediaPlayer.play();
 }
 
-
-
 function addPlaylistItemBtn() {
     console.log("addPlaylistItem");
     var ul = document.getElementById("playlist-ul");
@@ -176,7 +186,6 @@ function addPlaylistItemBtn() {
 }
 
 function pressPlayBtn() {
-    // mediaPlayer.play();
     console.log("pressPlay");
     playerManager.PlayTrack();
 }

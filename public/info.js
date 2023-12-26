@@ -5,4 +5,5 @@ let serverAPI = "http://youtube.lutstore.shop/api";
 const audioLocation = 'http://youtube.lutstore.shop/media/audio/';
 
 // let cobaltServer = "https://co.wuk.sh/api/json";
+// let cobaltServer = "http://192.168.45.10:9000/api/json";
 let cobaltServer = "http://localhost:9000/api/json";

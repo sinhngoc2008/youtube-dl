@@ -41,6 +41,7 @@ app.get('/api/', async (req, res) => {
     if (playlistID) {
         var playlistURl = "https://www.youtube.com/playlist?list=" + playlistID;
         var playlist = await getPlaylist(playlistURl);
+
         return res.send(JSON.stringify(playlist));
     }
 
@@ -52,10 +53,17 @@ app.get('/api/', async (req, res) => {
         var mp3File = mp3.id + ".mp3";
 
         if (validateFile(mp3File) == false) {
-            await DonwloadMp3(mp3.url, mp3File, function (err) {
-                console.log(mp3File + ' file downloaded successfully');
-                mp3.url = audioLocation + mp3File;
-                return res.send(JSON.stringify(mp3));
+            return new Promise(async (resolve, reject) => {
+                await DonwloadMp3(mp3.url, mp3File)
+                    .then(function (filename) {
+                        console.log(filename + ' file downloaded successfully');
+                        mp3.url = audioLocation + filename;
+                        resolve(res.send(JSON.stringify(mp3)));
+                    })
+                    .catch(function (error) {
+                        console.log("Error: " + error);
+                        reject(error);
+                    });
             });
         }
         else {
@@ -64,10 +72,6 @@ app.get('/api/', async (req, res) => {
             return res.send(JSON.stringify(mp3));
         }
     }
-    // }
-    // catch (e) {
-    //     console.log(e);
-    // }
     return res;
 })
 

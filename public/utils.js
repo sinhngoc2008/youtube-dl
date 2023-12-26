@@ -2,16 +2,35 @@
 var utils = (function () {
 
     async function getTrack(url) {
-        var result = await axios.get(serverAPI + "/?url=" + url);
-        return result.data;
+        return new Promise((resolve, reject) => {
+            axios.get(serverAPI + "/?url=" + url).then(function (response) {
+                resolve(response.data);
+            }).catch(function (error) {
+                console.log("Error: " + error);
+                reject();
+            });
+        });
+
+        // var result = await axios.get(serverAPI + "/?url=" + url);
+        // return result.data;
     }
 
     async function getMP3(url, id) {
-        return await axios.get(serverAPI + "/?url=" + url).then(function (response) {
-            return response.data;
-        }).catch(function (error) {
-            console.log("Error: " + error);
+        return new Promise((resolve, reject) => {
+            axios.get(serverAPI + "/?url=" + url).then(function (response) {
+                resolve(response.data);
+            }).catch(function (error) {
+                console.log("Error: " + error);
+                reject();
+            });
         });
+
+
+        // return await axios.get(serverAPI + "/?url=" + url).then(function (response) {
+        //     return response.data;
+        // }).catch(function (error) {
+        //     console.log("Error: " + error);
+        // });
     }
 
     async function getMP4(url) {

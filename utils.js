@@ -1,12 +1,14 @@
-const serverURL = "http://youtube.lutstore.shop";
 // const serverURL = "http://192.168.45.99:9091";
+const serverURL = "http://youtube.lutstore.shop";
+
 
 // const audioLocation = 'http://192.168.45.99:9091/media/audio/';
 const audioLocation = 'http://youtube.lutstore.shop/media/audio/';
 
 // let cobaltServer = "https://co.wuk.sh/api/json";
 // let cobaltServer = "http://cobalt.lutstore.shop/api/json";
-let cobaltServer = "http://localhost:9000/api/json";
+let cobaltServer = "http://192.168.45.10:9000/api/json";
+// let cobaltServer = "http://localhost:9000/api/json";
 
 const PORT = 9091;
 const Fs = require('fs');
@@ -130,25 +132,40 @@ async function DonwloadMp3BK(url, mp3Name, callback) {
     // pipe the result stream into a file on disc
     await response.data.pipe(await Fs.createWriteStream(filename)).on('finish', async function (err) {
         return await callback(err);
-    });;
+    });
 }
 
-async function DonwloadMp3(url, mp3Name, callback) {
+async function DonwloadMp3(url, mp3Name) {
     const filename = Path.join(__dirname, AudioPath, mp3Name);
-
     console.log("Downloading file: " + filename);
+    let stream = Fs.createWriteStream(filename)
 
-    // axios image download with response type "stream"
-    const response = await axios({
-        method: 'GET',
-        url: url,
-        responseType: 'stream'
-    })
+    return new Promise((resolve, reject) => {
+        axios({
+            method: 'GET',
+            url: url,
+            responseType: 'stream'
+        }).then(function (response) {
+            response.data.pipe(stream).on('finish', function (err) {
+                resolve(mp3Name);
+            });
+        }).catch(function (error) {
+            console.log(error);
+            reject(error);
+        })
+    });
 
-    // pipe the result stream into a file on disc
-    await response.data.pipe(await Fs.createWriteStream(filename)).on('finish', function (err) {
-        callback(err);
-    });;
+    // // axios image download with response type "stream"
+    // const response = await axios({
+    //     method: 'GET',
+    //     url: url,
+    //     responseType: 'stream'
+    // })
+
+    // // pipe the result stream into a file on disc
+    // return await response.data.pipe(await Fs.createWriteStream(filename)).on('finish', function (err) {
+    //     return callback(err);
+    // });;
 }
 
 const DonwloadMp4 = (url, filename) => {
